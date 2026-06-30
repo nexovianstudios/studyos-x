@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import * as Icons from 'lucide-react';
+import { supabase } from '../lib/supabase';
 import { useStore, type Theme, type EffectMode } from '../store';
 import { GlassCard, SectionTitle } from '../components/ui';
 
@@ -21,6 +23,8 @@ const EFFECTS: { id: EffectMode; name: string }[] = [
 export default function Settings() {
   const { state, updatePreferences, setState, resetData } = useStore();
   const p = state.preferences;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <div className="space-y-6">
@@ -124,6 +128,83 @@ export default function Settings() {
           </label>
         </div>
       </GlassCard>
+
+{/* Cloud Account */}
+<GlassCard className="p-6">
+  <h3 className="font-display font-semibold text-sm mb-4 text-primary-c">
+    Cloud Account
+  </h3>
+
+  <div className="space-y-3">
+    <input
+      type="email"
+      placeholder="Email Address"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      className="w-full bg-base-2 border border-white/10 rounded-xl px-3 py-2 text-sm text-primary-c"
+    />
+
+    <input
+      type="password"
+      placeholder="Password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      className="w-full bg-base-2 border border-white/10 rounded-xl px-3 py-2 text-sm text-primary-c"
+    />
+
+    <div className="flex gap-3 flex-wrap">
+      <button
+        className="neon-btn px-5 py-2 rounded-xl"
+        onClick={async () => {
+          const { error } = await supabase.auth.signUp({
+            email,
+            password,
+          });
+
+          if (error) {
+            alert(error.message);
+          } else {
+            alert('Account created successfully!');
+          }
+        }}
+      >
+        Sign Up
+      </button>
+
+      <button
+        className="glass px-5 py-2 rounded-xl"
+        onClick={async () => {
+          const { error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+
+          if (error) {
+            alert(error.message);
+          } else {
+            alert('Login successful!');
+          }
+        }}
+      >
+        Login
+      </button>
+
+      <button
+        className="glass px-5 py-2 rounded-xl"
+        onClick={async () => {
+          await supabase.auth.signOut();
+          alert('Logged out successfully!');
+        }}
+      >
+        Logout
+      </button>
+    </div>
+
+    <div className="text-xs text-secondary-c mt-2">
+      Sign in to sync XP, streaks, coins and progress across all your devices.
+    </div>
+  </div>
+</GlassCard>
 
       {/* Data management */}
       <GlassCard className="p-6">

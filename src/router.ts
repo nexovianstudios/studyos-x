@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 export type Route =
   | 'home' | 'formulas' | 'cheatsheets' | 'focus' | 'ambience'
   | 'effects' | 'mission' | 'analytics' | 'gamification' | 'ai'
-  | 'calendar' | 'notes' | 'resources' | 'settings';
+  | 'calendar' | 'notes' | 'resources' | 'settings' | 'credits';
 
 export function useRoute(): [Route, (r: Route) => void] {
   const [route, setRoute] = useState<Route>(() => {
@@ -42,5 +42,6 @@ export const NAV_ITEMS: { id: Route; label: string; icon: string }[] = [
   { id: 'calendar', label: 'Calendar', icon: 'Calendar' },
   { id: 'notes', label: 'Notes Hub', icon: 'StickyNote' },
   { id: 'resources', label: 'Resources', icon: 'Globe' },
+  { id: 'credits', label: 'Credits', icon: 'Award' },
   { id: 'settings', label: 'Settings', icon: 'Settings' },
 ];

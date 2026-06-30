@@ -16,6 +16,7 @@ import CalendarCenter from './pages/CalendarCenter';
 import NotesHub from './pages/NotesHub';
 import ResourceHub from './pages/ResourceHub';
 import Settings from './pages/Settings';
+import Credits from './pages/Credits';
 
 function LoadingScreen() {
   return (
@@ -45,6 +46,7 @@ function AppContent() {
     notes: <NotesHub />,
     resources: <ResourceHub />,
     settings: <Settings />,
+	credits: <Credits />,
   };
 
   return (
